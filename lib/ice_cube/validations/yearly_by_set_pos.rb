@@ -57,7 +57,7 @@ module IceCube
       end
 
       def build_s(builder)
-        builder.piece(:by_set_pos) << by_set_pos
+        builder.piece(:by_set_pos) << by_set_pos.map { |pos| StringBuilder.nice_number(pos.to_i) }
       end
 
       def build_hash(builder)

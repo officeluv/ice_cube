@@ -56,7 +56,7 @@ module IceCube
       end
 
       def build_s(builder)
-        builder.piece(:by_set_pos) << by_set_pos
+        builder.piece(:by_set_pos) << by_set_pos.map { |pos| StringBuilder.nice_number(pos.to_i) }
       end
 
       def build_hash(builder)
@@ -67,7 +67,12 @@ module IceCube
         builder['BYSETPOS'] << by_set_pos
       end
 
-      nil
+      StringBuilder.register_formatter(:by_set_pos) do |entries|
+        positions = entries.first.sort!
+        sentence = positions
+                   .join(IceCube::I18n.t('ice_cube.array.two_words_connector'))
+        IceCube::I18n.t('ice_cube.on', sentence: sentence)
+      end
     end
   end
 end

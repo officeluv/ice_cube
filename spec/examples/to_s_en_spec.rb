@@ -203,6 +203,26 @@ describe IceCube::Schedule, 'to_s' do
       expect(schedule.to_s).to eq('Weekly 2 times')
     end
 
+    it 'should be able to refelct BYSETPOS' do
+      schedule = IceCube::Schedule.from_ical "RRULE:FREQ=MONTHLY;BYDAY=WE;BYSETPOS=2"
+      expect(schedule.to_s).to eq('Monthly on the 2nd Wednesday')
+    end
+
+    it 'should be able to refelct multiple BYSETPOS' do
+      schedule = IceCube::Schedule.from_ical "RRULE:FREQ=MONTHLY;BYDAY=WE;BYSETPOS=1,2;COUNT=4"
+      expect(schedule.to_s).to eq('Monthly on the 1st and 2nd Wednesdays')
+    end
+
+    it 'should be able to refelct multiple BYSETPOS with count' do
+      schedule = IceCube::Schedule.from_ical "RRULE:FREQ=MONTHLY;BYDAY=WE;BYSETPOS=1,2;COUNT=4"
+      expect(schedule.to_s).to eq('Monthly on the 1st and 2nd Wednesdays 4 times')
+    end
+
+    it 'should be able to refelct BYSETPOS at last' do
+      schedule = IceCube::Schedule.from_ical "RRULE:FREQ=MONTHLY;BYDAY=WE;BYSETPOS=-1"
+      expect(schedule.to_s).to eq('Monthly on the last Wednesday')
+    end
+
   end
 
   context "without I18n" do
